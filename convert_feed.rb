@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'optparse'
 require_relative 'lib/convert_feed'
 
@@ -13,4 +15,4 @@ opt_parser.parse!
 
 options[:source] = ARGV.last
 
-ConverterFeed.run(options)
+ConverterFeed.new(options).run

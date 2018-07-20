@@ -1,0 +1,11 @@
+Rails:
+  Enabled: false
+
+AllCops:
+  TargetRubyVersion: 2.4
+
+Documentation:
+  Enabled: false
+
+Layout/EmptyLinesAroundBlockBody:
+  Enabled: false
