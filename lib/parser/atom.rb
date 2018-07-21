@@ -10,7 +10,7 @@ module Parser
       parsed_xml = Nokogiri::XML(source, &:noblanks)
 
       {
-        channel: channel_info(parsed_xml),
+        info: channel_info(parsed_xml),
         items: item_parser(parsed_xml)
       }
     end
