@@ -5,10 +5,10 @@ require 'open-uri'
 class Downloader
   class Stdin
     def self.usable?(_source)
-      true
+      !STDIN.tty?
     end
 
-    def download(_source)
+    def get(_source)
       STDIN.read
     end
   end

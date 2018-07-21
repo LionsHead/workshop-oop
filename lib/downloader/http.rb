@@ -8,7 +8,7 @@ class Downloader
       url.is_a?(String) && url =~ URI::DEFAULT_PARSER.make_regexp
     end
 
-    def download(url)
+    def get(url)
       open(url, &:read)
     end
   end

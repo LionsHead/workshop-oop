@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# wip смотри rss
+# wip see rss
 require 'nokogiri'
 
 # simple feed
@@ -47,7 +47,7 @@ class Converter
         xml.title info[:title]
         xml.description info[:description]
         xml.link info[:link]
-        xml.autor info[:web_master]
+        # xml.autor info[:web_master]
 
         items(xml, feed_items) if feed_items
       end

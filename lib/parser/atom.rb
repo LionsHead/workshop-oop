@@ -17,22 +17,17 @@ class Parser
       {
         title: parsed_xml.xpath('//rss/channel/title').text,
         description: parsed_xml.xpath('//rss/channel/description').text,
-        link: parsed_xml.xpath('//rss/channel/link').text,
-        web_master: parsed_xml.xpath('//rss/channel/webMaster').text
+        link: parsed_xml.xpath('//rss/channel/link').text
       }
     end
 
     def item_parser(parsed_xml)
-      parsed_xml.xpath('//rss/channel/item').inject([]) do |items, item|
+      parsed_xml.xpath('//rss/channel/entity').inject([]) do |items, item|
         items.push(
           title: item.xpath('title').text,
           description: item.xpath('description').text,
           date: item.xpath('pubDate').text,
-          link: item.xpath('link').text,
-          guid: {
-            value: item.xpath('guid').text,
-            permalink: item.xpath('guid').attribute('isPermaLink').value
-          }
+          link: item.xpath('link').text
         )
       end
     end

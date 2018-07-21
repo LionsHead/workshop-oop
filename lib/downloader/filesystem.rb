@@ -6,7 +6,7 @@ class Downloader
       path.is_a?(String) && File.exist?(path)
     end
 
-    def download(path)
+    def get(path)
       File.open(path, &:read)
     end
   end

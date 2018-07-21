@@ -7,37 +7,51 @@ require_rel 'downloader'
 require_rel 'parser'
 
 class ConverterFeed
-  attr_reader :options
+  attr_accessor :options, :downloaders, :parsers
+
+  DOWNLOADERS = [
+    Downloader::Filesystem,
+    Downloader::Http,
+    Downloader::Stdin
+  ]
+
+  PARSERS = [
+    Parser::Atom,
+    Parser::Rss
+  ]
 
   def initialize(options)
     @options = options
+
+    @downloaders = DOWNLOADERS
+    downloaders.concat options[:downloaders] if options[:downloaders]
+
+    @parsers = PARSERS
+    parsers.concat options[:parsers] if options[:parsers]
   end
 
   def convert
     source = options[:source]
-    # output = @options[:output] - need  more converter
+    output = options[:output]
 
-    kinds = [
-      Downloader::Filesystem,
-      Downloader::Http,
-      Downloader::Stdin
-    ]
+    downloader = downloaders.find { |kind| kind.usable?(source) }
+    # TODO: parser = Parser::Xml.new(parsers)
+    parser = Parser::Rss
+    feed = source_feed(downloader, parser, source: source)
 
-    downloader = kinds.find { |kind| kind.usable?(source) }
-    parser = Parser::Atom.new
-    builder = Converter::Rss.new # options[:output]
+    # here - sorting & limiting by options?
 
-    xml = converter(downloader, parser, builder)
+    converter = Kernel.const_get("Converter::#{output.capitalize}")
+    xml = converter.new.render(feed)
 
-    STDOUT.puts xml if options[:output]
+    STDOUT.puts xml if output
 
     xml
   end
 
-  def converter(downloader, parser, builder)
-    source_xml = downloader.download
-    data = parser.parse(source_xml)
+  def source_feed(downloader, parser, options)
+    source_data = downloader.new.get(options[:source])
 
-    builder.render(data)
+    parser.new.parse(source_data)
   end
 end

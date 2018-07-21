@@ -24,7 +24,7 @@ class Converter
         xml.title info[:title]
         xml.description info[:description]
         xml.link info[:link]
-        xml.webMaster info[:web_master]
+        # xml.webMaster info[:web_master]
 
         items(xml, feed_items) if feed_items
       end
@@ -34,7 +34,7 @@ class Converter
       feed_items.each do |item|
         xml.item do
           xml.title item[:title]
-          guid(xml, item)
+          # guid(xml, item)
           xml.link item[:link]
           xml.description item[:description]
           xml.pubDate item[:date]

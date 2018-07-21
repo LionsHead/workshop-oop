@@ -29,7 +29,7 @@ class TestConverter < Minitest::Test
     assert network.usable?(source)
   end
 
-  def test_stdin
+  def test_empty_arguments
     source = nil
     fylesystem = Downloader::Filesystem
     network = Downloader::Http
@@ -37,12 +37,12 @@ class TestConverter < Minitest::Test
 
     assert !fylesystem.usable?(source)
     assert !network.usable?(source)
-    assert stdin.usable?(source)
+    assert !stdin.usable?(source)
   end
 
   def test_parsing
-    source = @downloader.download(@options[:source])
-    parsed_info = Parser::Atom.new.parse(source)
+    source = @downloader.get(@options[:source])
+    parsed_info = Parser::Rss.new.parse(source)
 
     channel = parsed_info[:info]
     assert channel[:description] == 'Практические уроки по программированию'
