@@ -21,6 +21,21 @@ class TestConverter < Minitest::Test
     assert kinds.find(&:usable?).is_a?(Downloader::Filesystem)
   end
 
+  def test_file
+    downloader = Downloader::Filesystem.new(@options[:source])
+    assert downloader.usable?
+  end
+
+  def test_http
+    downloader = Downloader::Http.new('https://ru.hexlet.io/lessons.rss')
+    assert downloader.usable?
+  end
+
+  def test_stdin
+    downloader = Downloader::Stdin.new(@options[:source])
+    assert downloader.usable?
+  end
+
   def test_converted_file
     output = ConverterFeed.new(@options).convert
     parsed = Nokogiri::XML(output, &:noblanks)
