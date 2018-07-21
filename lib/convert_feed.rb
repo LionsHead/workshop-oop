@@ -24,32 +24,27 @@ class ConverterFeed
     @options = options
 
     @downloaders = DOWNLOADERS
-    downloaders.concat options[:downloaders] if options[:downloaders]
+    downloaders.concat(options[:downloaders]) if options[:downloaders]
 
     @parsers = PARSERS
-    parsers.concat options[:parsers] if options[:parsers]
+    parsers.concat(options[:parsers]) if options[:parsers]
   end
 
   def convert
-    source = options[:source]
-    output = options[:output]
+    downloader = downloaders.find { |kind| kind.usable?(options[:source]) }
+    parser = Parser::Rss # TODO: parser = Parser::Xml.new(parsers)
+    converter = Kernel.const_get("Converter::#{options[:output].capitalize}")
 
-    downloader = downloaders.find { |kind| kind.usable?(source) }
-    # TODO: parser = Parser::Xml.new(parsers)
-    parser = Parser::Rss
-    feed = source_feed(downloader, parser, source: source)
-
+    feed = source_feed(downloader, parser)
     # here - sorting & limiting by options?
-
-    converter = Kernel.const_get("Converter::#{output.capitalize}")
     xml = converter.new.render(feed)
 
-    STDOUT.puts xml if output
+    STDOUT.puts xml if options[:output]
 
     xml
   end
 
-  def source_feed(downloader, parser, options)
+  def source_feed(downloader, parser)
     source_data = downloader.new.get(options[:source])
 
     parser.new.parse(source_data)
