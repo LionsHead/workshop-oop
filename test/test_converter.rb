@@ -36,14 +36,12 @@ class TestConverter < Minitest::Test
     assert downloader.usable?
   end
 
-  def test_converted_file
-    output = ConverterFeed.new(@options).convert
-    parsed = Nokogiri::XML(output, &:noblanks)
+  def test_parsing
+    source = Downloader::Http.new(@options[:source]).download
+    parsed_info = Parser::Atom.new.parse(source)
+    channel = parsed_info[:info]
 
-    description = parsed.xpath('//rss/channel/description').text
-    link = parsed.xpath('//rss/channel/link').text
-
-    assert description == 'Практические уроки по программированию'
-    assert link == 'https://ru.hexlet.io/'
+    assert channel[:description] == 'Практические уроки по программированию'
+    assert channel[:link] == 'https://ru.hexlet.io/'
   end
 end
