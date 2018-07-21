@@ -16,4 +16,4 @@ opt_parser.parse!
 
 options[:source] = ARGV.length > 1 ? ARGV : ARGV.first
 
-ConverterFeed.new(options).convert
+ConverterFeed.new.convert(options)
