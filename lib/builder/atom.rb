@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-
+# wip смотри rss
 require 'nokogiri'
 
 # simple feed
