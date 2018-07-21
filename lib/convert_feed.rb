@@ -32,11 +32,11 @@ class ConverterFeed
 
   def convert
     downloader = downloaders.find { |kind| kind.usable?(options[:source]) }
-    parser = Parser::Rss # TODO: parser = Parser::Xml.new(parsers)
+    parser = Parser::Rss # TODO: use new parser = Parser::Xml.new(parsers)
     converter = Kernel.const_get("Converter::#{options[:output].capitalize}")
 
     feed = source_feed(downloader, parser)
-    # here - sorting & limiting by options?
+    # here - sorting & limiting
     xml = converter.new.render(feed)
 
     STDOUT.puts xml if options[:output]
