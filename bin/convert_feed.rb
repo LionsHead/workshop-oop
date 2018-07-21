@@ -1,7 +1,8 @@
+#!/usr/bin/env ruby
 # frozen_string_literal: true
 
 require 'optparse'
-require_relative 'lib/convert_feed'
+require_relative '../lib/convert_feed'
 
 options = {}
 opt_parser = OptionParser.new do |opts|
