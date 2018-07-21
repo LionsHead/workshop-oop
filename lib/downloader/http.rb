@@ -2,10 +2,8 @@
 
 require 'open-uri'
 
-module Downloader
-  module Http
-    module_function
-
+class Downloader
+  class Http 
     def download_by(path)
       open(path, &:read)
     end

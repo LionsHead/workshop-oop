@@ -5,18 +5,16 @@ require_relative 'downloader/filesystem'
 require_relative 'downloader/http'
 require_relative 'downloader/stdin'
 
-module Downloader
-  module_function
-
+class Downloader
   def download(args)
     path = args.first
 
     if correct_url?(path)
-      Downloader::Http.download_by(path)
+      Downloader::Http.new.download_by(path)
     elsif File.exist?(path)
-      Downloader::Filesystem.download_by(path)
+      Downloader::Filesystem.new.download_by(path)
     else
-      Downloader::Stdin.download_by(args)
+      Downloader::Stdin.new.download_by(args)
     end
   end
 

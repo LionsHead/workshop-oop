@@ -25,10 +25,8 @@ require 'nokogiri'
 #
 # </feed>
 
-module Builder
-  module Atom
-    module_function
-
+class Builder
+  class Atom 
     def build(data)
       data
     end

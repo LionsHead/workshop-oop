@@ -2,10 +2,8 @@
 
 require 'nokogiri'
 
-module Parser
-  module Atom
-    module_function
-
+class Parser
+  class Atom
     def parse(source)
       parsed_xml = Nokogiri::XML(source, &:noblanks)
 

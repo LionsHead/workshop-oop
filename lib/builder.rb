@@ -3,10 +3,8 @@
 require_relative 'builder/atom'
 require_relative 'builder/rss'
 
-module Builder
-  module_function
-
+class Builder
   def build(data)
-    Builder::Rss.build(data)
+    Builder::Rss.new.build(data)
   end
 end

@@ -3,8 +3,8 @@
 require_relative 'parser/rss'
 require_relative 'parser/atom'
 
-module Parser
-  def self.parse(source)
-    Parser::Atom.parse(source)
+class Parser
+  def parse(source)
+    Parser::Atom.new.parse(source)
   end
 end

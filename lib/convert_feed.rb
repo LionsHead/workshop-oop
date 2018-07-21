@@ -10,9 +10,9 @@ class ConverterFeed
   end
 
   def run
-    source_xml = Downloader.download(@options[:source])
-    data = Parser.parse(source_xml)
-    xml = Builder.build(data)
+    source_xml = Downloader.new.download(@options[:source])
+    data = Parser.new.parse(source_xml)
+    xml = Builder.new.build(data)
 
     output(xml)
   end

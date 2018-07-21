@@ -2,10 +2,8 @@
 
 require 'nokogiri'
 
-module Builder
-  module Rss
-    module_function
-
+class Builder
+  class Rss 
     def build(data)
       convert(data).to_xml
     end

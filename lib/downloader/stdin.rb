@@ -2,10 +2,8 @@
 
 require 'open-uri'
 
-module Downloader
-  module Stdin
-    module_function
-
+class Downloader
+  class Stdin
     def download_by(stdin)
       stdin.join(' ')
     end

@@ -2,8 +2,8 @@
 
 require 'nokogiri'
 
-module Parser
-  module Rss
+class Parser
+  class Rss
     def parse(source)
       source
     end
