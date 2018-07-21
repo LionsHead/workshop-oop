@@ -39,15 +39,16 @@ class ConverterFeed
 
   def feed_parser(parsed_xml)
     parsed_xml.xpath('//rss/channel/item').inject([]) do |items, item|
-      data = {
+      items.push(
         title: item.xpath('title').text,
         description: item.xpath('description').text,
         date: item.xpath('pubDate').text,
         link: item.xpath('link').text,
-        guid: item.xpath('guid').text
-      }
-
-      items << data
+        guid: {
+          value: item.xpath('guid').text,
+          permalink: item.xpath('guid').attribute('isPermaLink').value
+        }
+      )
     end
   end
 
@@ -63,7 +64,7 @@ class ConverterFeed
           feed_items.each do |item|
             xml.item do
               xml.title item[:title]
-              xml.guid item[:guid]
+              xml.guid('isPermaLink' => item[:guid][:permalink]) { item[:guid][:value] }
               xml.link item[:link]
               xml.description item[:description]
               xml.pubDate item[:date]
