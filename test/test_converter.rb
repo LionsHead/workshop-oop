@@ -13,8 +13,8 @@ class TestConverter < Minitest::Test
     source = @options[:source]
 
     kinds = [
-      Downloader::Filesystem.new(source),
       Downloader::Http.new(source),
+      Downloader::Filesystem.new(source),
       Downloader::Stdin.new(source)
     ]
 
