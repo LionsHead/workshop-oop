@@ -7,41 +7,47 @@ class TestConverter < Minitest::Test
     @options = {
       source: 'test/fixtures/test_feed.xml'
     }
-  end
 
-  def test_input_type
-    source = @options[:source]
-
-    kinds = [
-      Downloader::Http.new(source),
-      Downloader::Filesystem.new(source),
-      Downloader::Stdin.new(source)
-    ]
-
-    assert kinds.find(&:usable?).is_a?(Downloader::Filesystem)
+    @downloader = Downloader::Filesystem.new
   end
 
   def test_file
-    downloader = Downloader::Filesystem.new(@options[:source])
-    assert downloader.usable?
+    source = @options[:source]
+    fylesystem = Downloader::Filesystem
+    network = Downloader::Http
+
+    assert fylesystem.usable?(source)
+    assert !network.usable?(source)
   end
 
   def test_http
-    downloader = Downloader::Http.new('https://ru.hexlet.io/lessons.rss')
-    assert downloader.usable?
+    source = 'https://ru.hexlet.io/lessons.rss'
+    fylesystem = Downloader::Filesystem
+    network = Downloader::Http
+
+    assert !fylesystem.usable?(source)
+    assert network.usable?(source)
   end
 
   def test_stdin
-    downloader = Downloader::Stdin.new(@options[:source])
-    assert downloader.usable?
+    source = nil
+    fylesystem = Downloader::Filesystem
+    network = Downloader::Http
+    stdin = Downloader::Stdin
+
+    assert !fylesystem.usable?(source)
+    assert !network.usable?(source)
+    assert stdin.usable?(source)
   end
 
   def test_parsing
-    source = Downloader::Http.new(@options[:source]).download
+    source = @downloader.download(@options[:source])
     parsed_info = Parser::Atom.new.parse(source)
-    channel = parsed_info[:info]
 
+    channel = parsed_info[:info]
     assert channel[:description] == 'Практические уроки по программированию'
     assert channel[:link] == 'https://ru.hexlet.io/'
+
+    assert parsed_info[:items].size == 2
   end
 end

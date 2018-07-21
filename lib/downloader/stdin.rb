@@ -4,13 +4,11 @@ require 'open-uri'
 
 class Downloader
   class Stdin
-    def initialize(_source); end
-
-    def usable?
+    def self.usable?(_source)
       true
     end
 
-    def download
+    def download(_source)
       STDIN.read
     end
   end

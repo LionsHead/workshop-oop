@@ -7,27 +7,29 @@ require_rel 'downloader'
 require_rel 'parser'
 
 class ConverterFeed
+  attr_reader :options
+
   def initialize(options)
     @options = options
   end
 
   def convert
-    source = @options[:source]
+    source = options[:source]
     # output = @options[:output] - need  more converter
 
     kinds = [
-      Downloader::Filesystem.new(source),
-      Downloader::Http.new(source),
-      Downloader::Stdin.new(source)
+      Downloader::Filesystem,
+      Downloader::Http,
+      Downloader::Stdin
     ]
 
-    downloader = kinds.find(&:usable?)
+    downloader = kinds.find { |kind| kind.usable?(source) }
     parser = Parser::Atom.new
     builder = Converter::Rss.new # options[:output]
 
     xml = converter(downloader, parser, builder)
 
-    STDOUT.puts xml if @options[:output]
+    STDOUT.puts xml if options[:output]
 
     xml
   end
