@@ -9,7 +9,7 @@ class ConverterFeed
     source = options[:source]
     output = options[:output]
 
-    source_xml = Downloader.new().download(source)
+    source_xml = Downloader.new.download(source)
     data = Parser.new.parse(source_xml)
 
     converter = Converter.new(options)
