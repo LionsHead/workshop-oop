@@ -2,15 +2,19 @@
 
 require_relative 'downloader'
 require_relative 'parser'
-require_relative 'builder'
+require_relative 'converter'
 
 class ConverterFeed
   def convert(options)
-    source_xml = Downloader.new.download(options[:source])
+    source = options[:source]
+    output = options[:output]
 
+    source_xml = Downloader.new().download(source)
     data = Parser.new.parse(source_xml)
-    xml =  Builder.new(options).build(data)
 
-    pp xml
+    converter = Converter.new(options)
+    xml = converter.converter(data, output)
+
+    STDOUT.puts xml
   end
 end

@@ -7,7 +7,7 @@ require_relative 'downloader/http'
 require_relative 'downloader/stdin'
 
 class Downloader
-  def initialize
+  def initialize(_options)
     @kinds = [
       Downloader::Filesystem.new,
       Downloader::Http.new,
