@@ -5,6 +5,7 @@ GEM
     minitest (5.11.3)
     nokogiri (1.8.4)
       mini_portile2 (~> 2.3.0)
+    require_all (2.0.0)
 
 PLATFORMS
   ruby
@@ -12,6 +13,7 @@ PLATFORMS
 DEPENDENCIES
   minitest!
   nokogiri!
+  require_all!
 
 BUNDLED WITH
    1.16.3

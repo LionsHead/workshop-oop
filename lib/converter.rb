@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
-require_relative 'converter/atom'
-require_relative 'converter/rss'
+require 'require_all'
+require_rel 'converter'
 
 class Converter
   def initialize(options)

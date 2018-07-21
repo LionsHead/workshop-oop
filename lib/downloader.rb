@@ -1,13 +1,11 @@
 # frozen_string_literal: true
 
+require 'require_all'
 require 'uri'
-
-require_relative 'downloader/filesystem'
-require_relative 'downloader/http'
-require_relative 'downloader/stdin'
+require_rel 'downloader'
 
 class Downloader
-  def initialize(_options)
+  def initialize(_kind = nil)
     @kinds = [
       Downloader::Filesystem.new,
       Downloader::Http.new,

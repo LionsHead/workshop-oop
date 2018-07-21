@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
-require_relative 'parser/rss'
-require_relative 'parser/atom'
+require 'require_all'
+require_rel 'parser'
 
 class Parser
   def parse(source)
