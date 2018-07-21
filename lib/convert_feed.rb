@@ -22,10 +22,13 @@ class ConverterFeed
     ]
     downloader = kinds.find(&:usable?)
 
-    render = Converter::Rss.new # options[:output]
     parser = Parser::Atom.new
+    builder = Converter::Rss.new # options[:output]
 
-    STDOUT.puts converter(downloader, parser, render)
+    xml = converter(downloader, parser, builder)
+    STDOUT.puts xml if @options[:output]
+
+    xml
   end
 
   def converter(downloader, parser, builder)
