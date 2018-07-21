@@ -27,7 +27,7 @@ require 'nokogiri'
 
 class Converter
   class Atom
-    def converter(data)
+    def render(data)
       data
     end
 

@@ -1,20 +1,37 @@
 # frozen_string_literal: true
 
-require_relative 'downloader'
-require_relative 'parser'
-require_relative 'converter'
+require 'require_all'
+
+require_rel 'converter'
+require_rel 'downloader'
+require_rel 'parser'
 
 class ConverterFeed
-  def convert(options)
-    source = options[:source]
-    output = options[:output]
+  def initialize(options)
+    @options = options
+  end
 
-    source_xml = Downloader.new.download(source)
-    data = Parser.new.parse(source_xml)
+  def convert
+    source = @options[:source]
+    # output = @options[:output] - need  more converter
 
-    converter = Converter.new(options)
-    xml = converter.converter(data, output)
+    kinds = [
+      Downloader::Filesystem.new(source),
+      Downloader::Http.new(source),
+      Downloader::Stdin.new(source)
+    ]
+    downloader = kinds.find(&:usable?)
 
-    STDOUT.puts xml
+    render = Converter::Rss.new # options[:output]
+    parser = Parser::Atom.new
+
+    STDOUT.puts converter(downloader, parser, render)
+  end
+
+  def converter(downloader, parser, builder)
+    source_xml = downloader.download
+    data = parser.parse(source_xml)
+
+    builder.render(data)
   end
 end

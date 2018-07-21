@@ -4,16 +4,16 @@ require 'open-uri'
 
 class Downloader
   class Http
-    def usable?(args)
-      correct_url?(args)
+    def initialize(source)
+      @source = source
     end
 
-    def download_by(path)
-      open(path, &:read)
+    def usable?
+      @source =~ URI::DEFAULT_PARSER.make_regexp
     end
 
-    def correct_url?(url)
-      url =~ URI::DEFAULT_PARSER.make_regexp
+    def download
+      open(@source, &:read)
     end
   end
 end

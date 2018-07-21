@@ -2,12 +2,16 @@
 
 class Downloader
   class Filesystem
-    def usable?(args)
-      args.is_a?(String) && File.exist?(args)
+    def initialize(source)
+      @source = source
     end
 
-    def download_by(path)
-      File.open(path, &:read)
+    def usable?
+      @source.is_a?(String) && File.exist?(@source)
+    end
+
+    def download
+      File.open(@source, &:read)
     end
   end
 end
