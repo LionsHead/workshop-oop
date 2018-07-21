@@ -6,7 +6,9 @@ require_relative 'downloader/filesystem'
 require_relative 'downloader/http'
 require_relative 'downloader/stdin'
 
-class Downloader
+module Downloader
+  module_function
+
   def download(args)
     kind = args_kind(args)
     Kernel.const_get("Downloader::#{kind}").new.download_by(args)
