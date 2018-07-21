@@ -13,6 +13,6 @@ opt_parser = OptionParser.new do |opts|
 end
 opt_parser.parse!
 
-options[:source] = ARGV.last
+options[:source] = ARGV
 
 ConverterFeed.new(options).run
