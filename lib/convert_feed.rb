@@ -14,10 +14,6 @@ class ConverterFeed
     data = Parser.new.parse(source_xml)
     xml = Builder.new.build(data)
 
-    output(xml)
-  end
-
-  def output(xml)
     pp xml
   end
 end
