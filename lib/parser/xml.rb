@@ -2,7 +2,6 @@
 
 require 'nokogiri'
 require 'require_all'
-require_rel ''
 
 class Parser
   class Xml
@@ -17,7 +16,8 @@ class Parser
       # parsed_xml = Nokogiri::XML(source, &:noblanks)
       # parsers.find { |kind| kind.required?(parsed_xml) }
 
-      Parser::Rss.new.parse(source)
+      parser = parsers.last
+      parser.new.parse(source)
     end
   end
 end
