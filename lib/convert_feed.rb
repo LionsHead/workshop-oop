@@ -37,11 +37,7 @@ class ConverterFeed
 
     feed = source_feed(options[:source], downloader, parser)
     # here - sorting & limiting
-    xml = converter.new.render(feed)
-
-    STDOUT.puts xml if options[:output]
-
-    xml
+    converter.new.render(feed)
   end
 
   def source_feed(source, downloader, parser)
