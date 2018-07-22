@@ -56,6 +56,6 @@ class TestConverter < Minitest::Test
     assert channel[:description] == 'Практические уроки по программированию'
     assert channel[:link] == 'https://ru.hexlet.io/'
 
-    assert parsed_info[:items].size == 2
+    assert !parsed_info[:items].empty?
   end
 end
