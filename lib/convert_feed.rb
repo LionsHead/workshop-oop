@@ -27,11 +27,11 @@ class ConverterFeed
     @parsers = (options[:parsers] || []) + PARSERS
   end
 
-  def convert
-    downloader = downloaders.find { |kind| kind.usable?(options[:source]) }
+  def convert(source)
+    downloader = downloaders.find { |kind| kind.usable?(source) }
     converter = Kernel.const_get("Builder::#{options[:output].capitalize}")
 
-    feed = source_feed(options[:source], downloader, parsers)
+    feed = source_feed(source, downloader, parsers)
     # here - sorting & limiting
     converter.new.render(feed)
   end
