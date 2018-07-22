@@ -1,3 +1,8 @@
+PATH
+  remote: .
+  specs:
+    converter_feed (0.1.0)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -11,6 +16,7 @@ GEM
     nokogiri (1.8.4)
       mini_portile2 (~> 2.3.0)
     public_suffix (3.0.2)
+    rake (10.5.0)
     require_all (2.0.0)
     safe_yaml (1.0.4)
     webmock (3.4.2)
@@ -22,8 +28,11 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  bundler (~> 1.16)
+  converter_feed!
   minitest!
   nokogiri!
+  rake (~> 10.0)
   require_all!
   webmock!
 

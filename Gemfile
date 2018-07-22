@@ -6,3 +6,6 @@ source 'https://rubygems.org' do
   gem 'require_all'
   gem 'webmock'
 end
+
+# Specify your gem's dependencies in converter_feed.gemspec
+gemspec
