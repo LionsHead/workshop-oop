@@ -11,6 +11,19 @@ opt_parser = OptionParser.new do |opts|
   opts.on('--out FORMAT', 'Output feed format: atom, rss ') do |type|
     options[:output] = type.downcase
   end
+
+  opts.on('-r', '--reverse', 'Revert feed') do
+    options[:revert] = true
+  end
+
+  opts.on('-s', '--sort', 'Sort by date') do
+    options[:sort] = true
+  end
+
+  opts.on('-l LIMIT', '--limit LIMIT',
+          OptionParser::DecimalInteger, 'Limit') do |limit|
+    options[:limit] = limit
+  end
 end
 opt_parser.parse!
 

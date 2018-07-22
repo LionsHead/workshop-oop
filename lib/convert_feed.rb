@@ -5,9 +5,10 @@ require 'require_all'
 require_rel 'builders'
 require_rel 'downloader'
 require_rel 'parser'
+require_rel 'mutator'
 
 class ConverterFeed
-  attr_accessor :default_options, :downloaders, :parsers
+  attr_accessor :default_options, :downloaders, :parsers, :mutators
 
   DOWNLOADERS = [
     Downloader::Filesystem,
@@ -20,6 +21,13 @@ class ConverterFeed
     Parser::Rss
   ].freeze
 
+  MUTATORS = [
+    Mutator::SortItems,
+    Mutator::LimitItems,
+    Mutator::RevertItems,
+  ].freeze
+
+
   def initialize(options = {})
     @default_options = {
       output: 'rss'
@@ -28,6 +36,7 @@ class ConverterFeed
 
     @downloaders = (options[:downloader] || []) + DOWNLOADERS
     @parsers = (options[:parser] || []) + PARSERS
+    @mutators = options[:transformsers] || MUTATORS
   end
 
   def convert(source, options = {})
@@ -35,8 +44,9 @@ class ConverterFeed
     builder = builder_factory(options).new
 
     source_data = downloader.get(source)
-    feed = parse(source_data, parsers)
-    # here - sorting & limiting
+    data = parse(source_data, parsers)
+    feed = transdorm!(data, options)
+
     builder.formatter(feed)
   end
 
@@ -45,13 +55,20 @@ class ConverterFeed
     parser.parse(source_data)
   end
 
-  def downloader_factory(source, options = {})
-    kinds = (options[:downloader] || []) + downloaders
+  def transdorm!(data, opts = {})
+    items = opts[:transformsers] || mutators
+    items.inject(data) do |feed, mutator|
+      mutator.transdorm!(feed, opts)
+    end
+  end
+
+  def downloader_factory(source, opts = {})
+    kinds = (opts[:downloader] || []) + downloaders
     kinds.find { |kind| kind.usable?(source) }
   end
 
-  def builder_factory(options = {})
-    output = options[:output] || default_options[:output]
+  def builder_factory(opts = {})
+    output = opts[:output] || default_options[:output]
     Kernel.const_get("Builder::#{output.capitalize}")
   end
 end
