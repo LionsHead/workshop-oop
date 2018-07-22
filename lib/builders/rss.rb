@@ -2,7 +2,7 @@
 
 require 'nokogiri'
 
-class Converter
+class Builder
   class Rss
     def render(data)
       convert(data).to_xml

@@ -3,7 +3,7 @@
 # wip see rss
 require 'nokogiri'
 
-class Converter
+class Builder
   class Atom
     def render(data)
       data

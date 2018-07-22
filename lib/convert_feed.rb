@@ -2,7 +2,7 @@
 
 require 'require_all'
 
-require_rel 'converter'
+require_rel 'builders'
 require_rel 'downloader'
 require_rel 'parser'
 
@@ -29,7 +29,7 @@ class ConverterFeed
 
   def convert
     downloader = downloaders.find { |kind| kind.usable?(options[:source]) }
-    converter = Kernel.const_get("Converter::#{options[:output].capitalize}")
+    converter = Kernel.const_get("Builder::#{options[:output].capitalize}")
 
     feed = source_feed(options[:source], downloader, parsers)
     # here - sorting & limiting
