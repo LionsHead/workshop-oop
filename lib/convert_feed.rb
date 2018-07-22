@@ -21,7 +21,10 @@ class ConverterFeed
   ].freeze
 
   def initialize(options = {})
-    @default_options = options
+    @default_options = {
+      output: 'rss'
+    }
+    default_options.merge options
 
     @downloaders = (options[:downloader] || []) + DOWNLOADERS
     @parsers = (options[:parser] || []) + PARSERS

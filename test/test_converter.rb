@@ -13,9 +13,10 @@ class TestConverter < Minitest::Test
   end
 
   def test_convert
-    output = ConverterFeed.new.convert(@source, @options)
+    output = ConverterFeed.new.convert(@source)
+    true_feed = File.read 'test/fixtures/true_rss.xml'
 
-    assert output.length.positive?
+    assert_equal output, true_feed
   end
 
   def test_file

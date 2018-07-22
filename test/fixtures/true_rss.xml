@@ -4,17 +4,14 @@
     <title>Новые уроки на Хекслете</title>
     <description>Практические уроки по программированию</description>
     <link>https://ru.hexlet.io/</link>
-    <webMaster>info@hexlet.io</webMaster>
     <item>
       <title>Ареалы проживания членистоногих. Конкурс по функциональному программированию 03.2015. / Главные испытания</title>
-      <guid isPermaLink="false"/>
       <link>https://ru.hexlet.io/courses/main/lessons/functional-contest-03-2015/theory_unit</link>
       <description>Цель: Получить сатисфакцию</description>
       <pubDate>Thu, 05 Mar 2015 14:56:47 +0000</pubDate>
     </item>
     <item>
       <title>Rails для начинающих / Фреймворки</title>
-      <guid isPermaLink="false"/>
       <link>https://ru.hexlet.io/courses/frameworks/lessons/rails_getting_started/theory_unit</link>
       <description>Цель: Научиться работать с фреймворком Rails</description>
       <pubDate>Wed, 25 Mar 2015 12:05:14 +0000</pubDate>
