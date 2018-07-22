@@ -64,7 +64,10 @@ class ConverterTest < Minitest::Test
 
   def test_parsing
     source = @downloader.get(@source_file)
-    parsed_info = Parser::Rss.new.parse(source)
+    parsers = [
+      Parser::Rss
+    ]
+    parsed_info = Parser::Base.new(parsers).parse(source)
 
     channel = parsed_info[:info]
     assert channel[:description] == 'Практические уроки по программированию'

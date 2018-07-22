@@ -13,7 +13,7 @@ class Parser
       }
     end
 
-    def channel_info(parsed_xml)
+    def channel_info(parsed_xml) 
       {
         title: parsed_xml.xpath('//rss/channel/title').text,
         description: parsed_xml.xpath('//rss/channel/description').text,
