@@ -14,7 +14,6 @@ opt_parser = OptionParser.new do |opts|
 end
 opt_parser.parse!
 
-source = ARGV.length > 1 ? ARGV : ARGV.first
-response = ConverterFeed.new.convert(source, options)
+response = ConverterFeed.new.convert(ARGV.first, options)
 
 STDOUT.puts response if options[:output]
