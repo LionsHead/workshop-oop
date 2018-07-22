@@ -5,7 +5,7 @@ require 'require_all'
 
 class Parser
   class Base
-    attr_accessor :parsers
+    attr_reader :parsers
 
     def initialize(parsers)
       @parsers = parsers

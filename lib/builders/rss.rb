@@ -4,11 +4,11 @@ require 'nokogiri'
 
 class Builder
   class Rss
-    def render(data)
-      convert(data).to_xml
+    def formatter(data)
+      build(data).to_xml
     end
 
-    def convert(data)
+    def build(data)
       Nokogiri::XML::Builder.new(encoding: 'UTF-8') do |xml|
         xml.rss(version: '2.0') do
           channel(xml, data)

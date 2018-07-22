@@ -5,11 +5,11 @@ require 'nokogiri'
 
 class Builder
   class Atom
-    def render(data)
-      data
+    def formatter(data)
+      build(data).to_xml
     end
 
-    def convert(data)
+    def build(data)
       Nokogiri::XML::Builder.new(encoding: 'UTF-8') do |xml|
         xml.feed(xmlns: 'http://www.w3.org/2005/Atom') do
           feed(xml, data)

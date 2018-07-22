@@ -37,7 +37,7 @@ class ConverterFeed
     source_data = downloader.get(source)
     feed = parse(source_data, parsers)
     # here - sorting & limiting
-    builder.render(feed)
+    builder.formatter(feed)
   end
 
   def parse(source_data, xml_parsers)
