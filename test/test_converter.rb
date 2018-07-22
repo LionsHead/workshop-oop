@@ -4,23 +4,33 @@ require_relative 'test_helper'
 
 class TestConverter < Minitest::Test
   def setup
-    @source = 'test/fixtures/test_feed.xml'
+    @source_file = 'test/fixtures/test_feed.xml'
     @options = {
       output: 'rss'
     }
+
+    @source_url = 'http://example.io/feed.rss'
+    @true_feed = File.read 'test/fixtures/true_rss.xml'
+    stub_request(:get, 'example.io/feed.rss')
+      .to_return(status: 200, headers: {}, body: @true_feed)
 
     @downloader = Downloader::Filesystem.new
   end
 
   def test_convert
-    output = ConverterFeed.new.convert(@source)
-    true_feed = File.read 'test/fixtures/true_rss.xml'
+    output = ConverterFeed.new.convert(@source_file)
 
-    assert_equal output, true_feed
+    assert_equal output, @true_feed
+  end
+
+  def test_http_convert
+    output = ConverterFeed.new.convert(@source_url)
+
+    assert_equal output, @true_feed
   end
 
   def test_file
-    source = @source
+    source = @source_file
     fylesystem = Downloader::Filesystem
     network = Downloader::Http
 
@@ -49,7 +59,7 @@ class TestConverter < Minitest::Test
   end
 
   def test_parsing
-    source = @downloader.get(@source)
+    source = @downloader.get(@source_file)
     parsed_info = Parser::Rss.new.parse(source)
 
     channel = parsed_info[:info]

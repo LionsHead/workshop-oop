@@ -1,11 +1,22 @@
 GEM
   remote: https://rubygems.org/
   specs:
+    addressable (2.5.2)
+      public_suffix (>= 2.0.2, < 4.0)
+    crack (0.4.3)
+      safe_yaml (~> 1.0.0)
+    hashdiff (0.3.7)
     mini_portile2 (2.3.0)
     minitest (5.11.3)
     nokogiri (1.8.4)
       mini_portile2 (~> 2.3.0)
+    public_suffix (3.0.2)
     require_all (2.0.0)
+    safe_yaml (1.0.4)
+    webmock (3.4.2)
+      addressable (>= 2.3.6)
+      crack (>= 0.3.2)
+      hashdiff
 
 PLATFORMS
   ruby
@@ -14,6 +25,7 @@ DEPENDENCIES
   minitest!
   nokogiri!
   require_all!
+  webmock!
 
 BUNDLED WITH
    1.16.3
