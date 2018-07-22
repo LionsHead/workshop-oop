@@ -23,24 +23,32 @@ class ConverterFeed
   def initialize(options = {})
     @default_options = options
 
-    @downloaders = (options[:downloaders] || []) + DOWNLOADERS
-    @parsers = (options[:parsers] || []) + PARSERS
+    @downloaders = (options[:downloader] || []) + DOWNLOADERS
+    @parsers = (options[:parser] || []) + PARSERS
   end
 
   def convert(source, options = {})
-    output = options[:output] || default_options[:output]
+    downloader = downloader_factory(source, options).new
+    builder = builder_factory(options).new
 
-    downloader = downloaders.find { |kind| kind.usable?(source) }
-    converter = Kernel.const_get("Builder::#{output.capitalize}")
-
-    source_data = downloader.new.get(source)
+    source_data = downloader.get(source)
     feed = parse(source_data, parsers)
     # here - sorting & limiting
-    converter.new.render(feed)
+    builder.render(feed)
   end
 
   def parse(source_data, xml_parsers)
     parser = Parser::Xml.new(xml_parsers)
     parser.parse(source_data)
+  end
+
+  def downloader_factory(source, options = {})
+    kinds = (options[:downloader] || []) + downloaders
+    kinds.find { |kind| kind.usable?(source) }
+  end
+
+  def builder_factory(options = {})
+    output = options[:output] || default_options[:output]
+    Kernel.const_get("Builder::#{output.capitalize}")
   end
 end
