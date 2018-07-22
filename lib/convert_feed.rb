@@ -23,23 +23,22 @@ class ConverterFeed
   def initialize(options)
     @options = options
 
-    @downloaders = DOWNLOADERS + (options[:downloaders] || [])
-    @parsers = PARSERS + (options[:parsers] || [])
+    @downloaders = (options[:downloaders] || []) + DOWNLOADERS
+    @parsers = (options[:parsers] || []) + PARSERS
   end
 
   def convert
     downloader = downloaders.find { |kind| kind.usable?(options[:source]) }
-    parser = Parser::Rss # TODO: use new parser = Parser::Xml.new(parsers)
     converter = Kernel.const_get("Converter::#{options[:output].capitalize}")
 
-    feed = source_feed(options[:source], downloader, parser)
+    feed = source_feed(options[:source], downloader)
     # here - sorting & limiting
     converter.new.render(feed)
   end
 
-  def source_feed(source, downloader, parser)
+  def source_feed(source, downloader)
     source_data = downloader.new.get(source)
 
-    parser.new.parse(source_data)
+    Parser::Xml.new(parsers).parse(source_data)
   end
 end
