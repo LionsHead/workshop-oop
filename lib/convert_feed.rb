@@ -35,7 +35,7 @@ class ConverterFeed
     parser = Parser::Rss # TODO: use new parser = Parser::Xml.new(parsers)
     converter = Kernel.const_get("Converter::#{options[:output].capitalize}")
 
-    feed = source_feed(downloader, parser)
+    feed = source_feed(options[:source], downloader, parser)
     # here - sorting & limiting
     xml = converter.new.render(feed)
 
@@ -44,8 +44,8 @@ class ConverterFeed
     xml
   end
 
-  def source_feed(downloader, parser)
-    source_data = downloader.new.get(options[:source])
+  def source_feed(source, downloader, parser)
+    source_data = downloader.new.get(source)
 
     parser.new.parse(source_data)
   end
