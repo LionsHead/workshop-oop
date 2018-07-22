@@ -13,21 +13,18 @@ class ConverterFeed
     Downloader::Filesystem,
     Downloader::Http,
     Downloader::Stdin
-  ]
+  ].freeze
 
   PARSERS = [
     Parser::Atom,
     Parser::Rss
-  ]
+  ].freeze
 
   def initialize(options)
     @options = options
 
-    @downloaders = DOWNLOADERS
-    downloaders.concat(options[:downloaders]) if options[:downloaders]
-
-    @parsers = PARSERS
-    parsers.concat(options[:parsers]) if options[:parsers]
+    @downloaders = DOWNLOADERS + (options[:downloaders] || [])
+    @parsers = PARSERS + (options[:parsers] || [])
   end
 
   def convert
