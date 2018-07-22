@@ -1,2 +1,2 @@
 tests:
-	ruby test/test_converter.rb
+	ruby test/converter_test.rb
