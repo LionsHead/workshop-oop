@@ -1,2 +1,4 @@
-tests:
+.PHONY: test
+
+test:
 	rake test
