@@ -14,6 +14,6 @@ opt_parser = OptionParser.new do |opts|
 end
 opt_parser.parse!
 
-response = ConverterFeed.new.convert(ARGV.first, options)
+output = ConverterFeed.new.convert(ARGV.first, options)
 
-STDOUT.puts response if options[:output]
+STDOUT.puts output if options[:output]
