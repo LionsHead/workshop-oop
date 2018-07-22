@@ -4,7 +4,7 @@ require 'nokogiri'
 require 'require_all'
 
 class Parser
-  class Xml
+  class Base
     attr_accessor :parsers
 
     def initialize(parsers)
@@ -12,12 +12,10 @@ class Parser
     end
 
     def parse(source)
-      # wip
-      # parsed_xml = Nokogiri::XML(source, &:noblanks)
-      # parsers.find { |kind| kind.required?(parsed_xml) }
+      parsed_xml = Nokogiri::XML(source, &:noblanks)
+      parser = parsers.find { |kind| kind.required?(parsed_xml) }
 
-      parser = parsers.last
-      parser.new.parse(source)
+      parser.new.parse(parsed_xml)
     end
   end
 end

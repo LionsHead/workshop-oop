@@ -41,7 +41,7 @@ class ConverterFeed
   end
 
   def parse(source_data, xml_parsers)
-    parser = Parser::Xml.new(xml_parsers)
+    parser = Parser::Base.new(xml_parsers)
     parser.parse(source_data)
   end
 

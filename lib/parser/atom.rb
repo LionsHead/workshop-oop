@@ -1,12 +1,12 @@
 # frozen_string_literal: true
 
-require 'nokogiri'
-
 class Parser
   class Atom
-    def parse(source)
-      parsed_xml = Nokogiri::XML(source, &:noblanks)
+    def self.required?(xml)
+      !!xml.at_xpath('/feed')
+    end
 
+    def parse(parsed_xml)
       {
         info: channel_info(parsed_xml),
         items: item_parser(parsed_xml)

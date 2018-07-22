@@ -1,12 +1,12 @@
 # frozen_string_literal: true
 
-require 'nokogiri'
-
 class Parser
   class Rss
-    def parse(source)
-      parsed_xml = Nokogiri::XML(source, &:noblanks)
+    def self.required?(xml)
+      !!xml.at_xpath('/rss')
+    end
 
+    def parse(parsed_xml)
       {
         info: channel_info(parsed_xml),
         items: item_parser(parsed_xml)
