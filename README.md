@@ -1,4 +1,4 @@
-# Enterprise ConverterFeed
+# ConverterFeed Enterprise Edition
 
 Утилита выводит результат в STDOUT.
 Исходный feed может быть локальным файлом, stdin, так и http адресом по которому нужно его забрать.
