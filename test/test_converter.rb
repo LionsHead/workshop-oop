@@ -13,7 +13,7 @@ class TestConverter < Minitest::Test
   end
 
   def test_convert
-    output = ConverterFeed.new(@options).convert(@source)
+    output = ConverterFeed.new.convert(@source, @options)
 
     assert output.length.positive?
   end

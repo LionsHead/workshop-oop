@@ -7,7 +7,7 @@ require_rel 'downloader'
 require_rel 'parser'
 
 class ConverterFeed
-  attr_accessor :options, :downloaders, :parsers
+  attr_accessor :default_options, :downloaders, :parsers
 
   DOWNLOADERS = [
     Downloader::Filesystem,
@@ -20,25 +20,27 @@ class ConverterFeed
     Parser::Rss
   ].freeze
 
-  def initialize(options)
-    @options = options
+  def initialize(options = {})
+    @default_options = options
 
     @downloaders = (options[:downloaders] || []) + DOWNLOADERS
     @parsers = (options[:parsers] || []) + PARSERS
   end
 
-  def convert(source)
-    downloader = downloaders.find { |kind| kind.usable?(source) }
-    converter = Kernel.const_get("Builder::#{options[:output].capitalize}")
+  def convert(source, options = {})
+    output = options[:output] || default_options[:output]
 
-    feed = source_feed(source, downloader, parsers)
+    downloader = downloaders.find { |kind| kind.usable?(source) }
+    converter = Kernel.const_get("Builder::#{output.capitalize}")
+
+    source_data = downloader.new.get(source)
+    feed = parse(source_data, parsers)
     # here - sorting & limiting
     converter.new.render(feed)
   end
 
-  def source_feed(source, downloader, xml_parsers)
-    source_data = downloader.new.get(source)
-
-    Parser::Xml.new(xml_parsers).parse(source_data)
+  def parse(source_data, xml_parsers)
+    parser = Parser::Xml.new(xml_parsers)
+    parser.parse(source_data)
   end
 end
